@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css"
+      rel="stylesheet"
+    />
+    <script defer src="main.js"></script>
+    <title>BookMarker</title>
+  </head>
+  <body>
+    <header>
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container">
+          <a href="#" class="text-dark">BookMarker</a>
+        </div>
+      </nav>
+      <!-- Navbar -->
+
+      <!-- Jumbotron -->
+      <div class="p-5 text-center bg-light">
+        <h1 class="mb-3">BookMarker</h1>
+        <h4 class="mb-3">Track your favorite websites</h4>
+
+        <div class="mt-5 col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+          <form id="form">
+            <div class="form-outline mb-4">
+              <input id="siteName" type="text" class="form-control" />
+              <label for="siteName" class="form-label">Website Name</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input id="siteUrl" type="text" class="form-control" />
+              <label class="form-label" for="siteUrl">Website Address</label>
+            </div>
+
+            <button
+              type="submit"
+              class="btn text-white mb-4"
+              style="background-color: #0082ca"
+            >
+              Add Website
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- Jumbotron -->
+    </header>
+    <main>
+      <section>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="col-lg-12">
+                <ul id="results" class="list-group list-group-light"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- MDB -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"
+    ></script>
+  </body>
+</html>
