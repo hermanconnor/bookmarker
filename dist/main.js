@@ -17,7 +17,10 @@ const initApp = () => {
     });
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+        if (!name.value || !url.value)
+            return;
         addBookmark(results, name, url);
+        form.reset();
     });
 };
 document.addEventListener('DOMContentLoaded', initApp);
@@ -35,8 +38,6 @@ const addBookmark = (ul, name, url) => {
     renderElement(ul, li);
     bookmarks.push(newBookmark);
     saveBookmark(bookmarks);
-    name.value = '';
-    url.value = '';
 };
 const createElements = (id, name, url) => {
     const li = document.createElement('li');

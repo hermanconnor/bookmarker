@@ -45,13 +45,21 @@
             </div>
 
             <div class="form-outline mb-4">
-              <input id="siteUrl" type="text" class="form-control" />
+              <input
+                id="siteUrl"
+                type="url"
+                class="form-control"
+                aria-describedby="urlExample"
+              />
               <label class="form-label" for="siteUrl">Website Address</label>
+              <div id="urlExample" class="form-helper text-start">
+                Example: https://www.google.com
+              </div>
             </div>
 
             <button
               type="submit"
-              class="btn text-white mb-4"
+              class="btn text-white mb-4 mt-2"
               style="background-color: #0082ca"
             >
               Add Website

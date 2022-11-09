@@ -25,7 +25,12 @@ const initApp = () => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
+    if (!name.value || !url.value) return;
+
     addBookmark(results, name, url);
+
+    // Clear form values after submit
+    form.reset();
   });
 };
 
@@ -62,9 +67,6 @@ const addBookmark = (
   bookmarks.push(newBookmark);
 
   saveBookmark(bookmarks);
-
-  name.value = '';
-  url.value = '';
 };
 
 // CREATE ELEMENTS
