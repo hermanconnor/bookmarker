@@ -4,9 +4,8 @@ const initApp = () => {
     const name = document.getElementById('siteName');
     const url = document.getElementById('siteUrl');
     const results = document.getElementById('results');
-    // Get Bookmarks from local storage
     getBookmarks().forEach((bookmark) => {
-        const listItem = createElements(bookmark.name, bookmark.url);
+        const listItem = createElements(bookmark.id, bookmark.name, bookmark.url);
         results.append(listItem);
     });
     results.addEventListener('click', (e) => {
@@ -14,33 +13,32 @@ const initApp = () => {
         const bookmark = target.closest('button');
         if (!bookmark)
             return;
-        console.log(bookmark);
+        deleteBookmark(bookmark.id, bookmark);
     });
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        addBookmark(name, url);
+        addBookmark(results, name, url);
     });
 };
 document.addEventListener('DOMContentLoaded', initApp);
-// GET BOOKMARKS
 const getBookmarks = () => {
     return JSON.parse(localStorage.getItem('bookmarks') || '[]');
 };
-// ADD BOOKMARK
-const addBookmark = (name, url) => {
-    // const ul = document.getElementById('result') as HTMLUListElement;
+const addBookmark = (ul, name, url) => {
     const bookmarks = getBookmarks();
     const newBookmark = {
+        id: `${Math.floor(Math.random() * 100000)}-${name.value}`,
         name: name.value,
         url: url.value,
     };
-    // const li = createElements(name.value, url.value);
-    // renderElement(ul, li);
+    const li = createElements(newBookmark.id, newBookmark.name, newBookmark.url);
+    renderElement(ul, li);
     bookmarks.push(newBookmark);
     saveBookmark(bookmarks);
+    name.value = '';
+    url.value = '';
 };
-// CREATE ELEMENTS
-const createElements = (name, url) => {
+const createElements = (id, name, url) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between');
     const div = document.createElement('div');
@@ -53,6 +51,7 @@ const createElements = (name, url) => {
     a.classList.add('btn', 'btn-primary');
     a.textContent = 'Visit';
     const button = document.createElement('button');
+    button.id = id;
     button.classList.add('btn', 'btn-danger', 'ms-3');
     button.type = 'button';
     button.textContent = 'Delete';
@@ -62,12 +61,14 @@ const createElements = (name, url) => {
     li.append(div);
     return li;
 };
-// RENDER ELEMENT
 const renderElement = (parent, child) => {
     parent.appendChild(child);
 };
-// SAVE BOOKMARK
 const saveBookmark = (bookmarks) => {
     localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
 };
-// DELETE BOOKMARK
+const deleteBookmark = (id, el) => {
+    const bookmarks = getBookmarks().filter((bookmark) => bookmark.id !== id);
+    saveBookmark(bookmarks);
+    el.parentElement?.parentElement?.remove();
+};

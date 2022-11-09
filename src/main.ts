@@ -6,60 +6,73 @@ const initApp = () => {
 
   // Get Bookmarks from local storage
   getBookmarks().forEach((bookmark) => {
-    const listItem = createElements(bookmark.name, bookmark.url);
+    const listItem = createElements(bookmark.id, bookmark.name, bookmark.url);
 
     results.append(listItem);
   });
 
+  // Delete Event Listener
   results.addEventListener('click', (e: MouseEvent) => {
     const target = e.target as HTMLButtonElement;
     const bookmark = target.closest('button');
 
     if (!bookmark) return;
 
-    console.log(bookmark);
+    deleteBookmark(bookmark.id, bookmark);
   });
 
+  // Form Submit Event Listener
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    addBookmark(name, url);
+    addBookmark(results, name, url);
   });
 };
 
 document.addEventListener('DOMContentLoaded', initApp);
 
 interface Bookmark {
+  id: string;
   name: string;
   url: string;
 }
-
 // GET BOOKMARKS
 const getBookmarks = (): Bookmark[] => {
   return JSON.parse(localStorage.getItem('bookmarks') || '[]');
 };
 
 // ADD BOOKMARK
-const addBookmark = (name: HTMLInputElement, url: HTMLInputElement): void => {
-  // const ul = document.getElementById('result') as HTMLUListElement;
-
+const addBookmark = (
+  ul: HTMLUListElement,
+  name: HTMLInputElement,
+  url: HTMLInputElement,
+): void => {
   const bookmarks = getBookmarks();
 
   const newBookmark = {
+    id: `${Math.floor(Math.random() * 100000)}-${name.value}`,
     name: name.value,
     url: url.value,
   };
 
-  // const li = createElements(name.value, url.value);
-  // renderElement(ul, li);
+  const li = createElements(newBookmark.id, newBookmark.name, newBookmark.url);
+
+  renderElement(ul, li);
 
   bookmarks.push(newBookmark);
 
   saveBookmark(bookmarks);
+
+  name.value = '';
+  url.value = '';
 };
 
 // CREATE ELEMENTS
-const createElements = (name: string, url: string): HTMLLIElement => {
+const createElements = (
+  id: string,
+  name: string,
+  url: string,
+): HTMLLIElement => {
   const li = document.createElement('li');
   li.classList.add('list-group-item', 'd-flex', 'justify-content-between');
 
@@ -76,6 +89,7 @@ const createElements = (name: string, url: string): HTMLLIElement => {
   a.textContent = 'Visit';
 
   const button = document.createElement('button');
+  button.id = id;
   button.classList.add('btn', 'btn-danger', 'ms-3');
   button.type = 'button';
   button.textContent = 'Delete';
@@ -100,4 +114,12 @@ const saveBookmark = (bookmarks: Bookmark[]): void => {
 };
 
 // DELETE BOOKMARK
-const deleteBookmark = (el: HTMLButtonElement) => {};
+const deleteBookmark = (id: string, el: HTMLButtonElement) => {
+  // Remove from storage
+  const bookmarks = getBookmarks().filter((bookmark) => bookmark.id !== id);
+
+  saveBookmark(bookmarks);
+
+  // Remove from UI
+  el.parentElement?.parentElement?.remove();
+};
